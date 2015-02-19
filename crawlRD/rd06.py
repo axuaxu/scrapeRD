@@ -27,24 +27,56 @@ def getItems(tree):
            }
     return myDict
 
+def writeItems(myDB,myFile,myDict):
 
-conn = sqlite3.connect('..\db.sqlite3')
-c = conn.cursor()
+    outFile = open(myFile,'w')
+    conn = sqlite3.connect(myDB)
+    c = conn.cursor()
+    i = 0
+    tline = ''
+    mlen=[]
+    for k,v in myDict.items():
+         mlen.append(len(v))
+    minLen = min(mlen)
 
-OutName = r'.\output\reddit-out.csv'
-outFile = open('tt.csv','w')
+    while i < minLen:
+        for k,v in myDict.items():
+            print k, 'corresponds to', v
+        myDict['title'][i] = myDict['title'][i].replace("'","")
+        #title[i] = title[i].replace("'","''")
+        #liFirst[i] = int(liFirst[i].replace("comments",""))
+        #oneLine = "('"+title[i]+"','"+domain[i]+"','"+submitter[i]+"',"+str(liFirst[i])+",'"+datetime[i]+"')".decode('unicode_escape').encode('ascii','ignore')
+        #oneLine = oneLine. replace("\r\n","")
+        #insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rddatetime)  values "+ oneLine
+
+        #c.execute(insertSQL)
+        #tline = tline + oneLine +",\n"
+
+        i = i + 1
+
+    conn.commit()
+    conn.close()
+
+    outFile.write(tline)
+    outFile.close
+
+
+
+#conn = sqlite3.connect('..\db.sqlite3')
+#c = conn.cursor()
+
+#OutName = r'.\output\reddit-out.csv'
+#outFile = open('tt.csv','w')
 
 #page = requests.get('http://localhost:8000/001/til.htm')
 #tree = html.fromstring(page.text)
 
 tree = openPage('http://localhost:8000/001/til.htm')
 myItems = getItems(tree)
+myDB = '..\db.sqlite3'
+myFile = r'reddit-out.csv'
 
-
-mlen=[]
-for k,v in myItems.items():
-    mlen.append(len(v))
-    print k, 'corresponds to', v
+writeItems(myDB,myFile,myItems)
 
 
 
@@ -75,17 +107,17 @@ while i < minLen:
     insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rddatetime)  values "+ oneLine
     print(insertSQL)
 
-    c.execute(insertSQL)
+    #c.execute(insertSQL)
     tline = tline + oneLine +",\n"
 
     i = i + 1
 
 
-conn.commit()
-conn.close()
+#conn.commit()
+#conn.close()
 
-outFile.write(tline)
-outFile.close
+#outFile.write(tline)
+#outFile.close
 
 
 #lin = nextprev[0].text
