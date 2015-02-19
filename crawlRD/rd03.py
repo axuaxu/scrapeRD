@@ -43,16 +43,17 @@ tline = ''
 while i < minLen:
     #print i+1,title[i],domain[i],submitter[i],liFirst[i],FullName[i],datetime[i],'\n'
     title[i] = title[i].replace("'","''")
-    oneLine = "('"+title[i]+"','"+domain[i]+"','"+submitter[i]+"','"+liFirst[i]+"','"+datetime[i]+"')".decode('unicode_escape').encode('ascii','ignore')
+    liFirst[i] = int(liFirst[i].replace("comments",""))
+    oneLine = "('"+title[i]+"','"+domain[i]+"','"+submitter[i]+"',"+str(liFirst[i])+",'"+datetime[i]+"')".decode('unicode_escape').encode('ascii','ignore')
     #oneLine = oneLine.replace("'","")
     oneLine = oneLine. replace("\r\n","")
     #print oneLine
     #oneLine = re.sub('\W+',' ', oneLine )
     insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rddatetime)  values "+ oneLine
     print(insertSQL)
-    if i>2:
-       c.execute(insertSQL)
-       tline = tline + oneLine +",\n"
+
+    c.execute(insertSQL)
+    tline = tline + oneLine +",\n"
 
     i = i + 1
 

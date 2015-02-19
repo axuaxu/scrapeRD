@@ -9,8 +9,8 @@ class RedditPage(models.Model):
     rdTitle = models.TextField()
     rdDomain = models.CharField(max_length=200)
     rdSubmitter = models.CharField(max_length=300)
-    rdLiFirst = models.CharField(max_length=200)
-    rdDateTime = models.CharField(max_length=100)
+    rdLiFirst = models.IntegerField(max_length=200)
+    rdDateTime = models.DateTimeField()
 
 
 
