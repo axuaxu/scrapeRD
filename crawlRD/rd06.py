@@ -44,94 +44,32 @@ def writeItems(myDB,myFile,myDict):
             print k, 'corresponds to', v
         myDict['title'][i] = myDict['title'][i].replace("'","")
         #title[i] = title[i].replace("'","''")
-        #liFirst[i] = int(liFirst[i].replace("comments",""))
-        #oneLine = "('"+title[i]+"','"+domain[i]+"','"+submitter[i]+"',"+str(liFirst[i])+",'"+datetime[i]+"')".decode('unicode_escape').encode('ascii','ignore')
-        #oneLine = oneLine. replace("\r\n","")
-        #insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rddatetime)  values "+ oneLine
+        sComments = myDict['liFirst'][i].split(' ')
+        numComments = int(sComments[0])
+        oneLine = "('"+myDict['title'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
+        oneLine = oneLine. replace("\r\n","")
+        insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rdfullname,rddatetime)  values "+ oneLine
 
-        #c.execute(insertSQL)
-        #tline = tline + oneLine +",\n"
+        c.execute(insertSQL)
+        tline = tline + oneLine +",\n"
 
         i = i + 1
 
     conn.commit()
     conn.close()
 
-    outFile.write(tline)
+    outFile.write(tline.encode('utf8'))
     outFile.close
 
 
-
-#conn = sqlite3.connect('..\db.sqlite3')
-#c = conn.cursor()
-
-#OutName = r'.\output\reddit-out.csv'
-#outFile = open('tt.csv','w')
-
-#page = requests.get('http://localhost:8000/001/til.htm')
-#tree = html.fromstring(page.text)
-
-tree = openPage('http://localhost:8000/001/til.htm')
+#tree = openPage('http://localhost:8000/001/til.htm')
+tree = openPage('http://localhost:8000/001/wiki-1.htm')
 myItems = getItems(tree)
 myDB = '..\db.sqlite3'
 myFile = r'reddit-out.csv'
-
 writeItems(myDB,myFile,myItems)
-
-
-
-title = readPage(tree,'//a[@class="title may-blank "]/text()')
-domain = readPage(tree,'//span[@class="domain"]/a/text()')
-submitter = readPage(tree,'//p[@class="tagline"]/a/text()')
-liFirst = readPage(tree,'//li[@class="first"]/a/text()')
-FullName = readPage(tree,'//@data-fullname')
-datetime = readPage(tree,'//@datetime')
 
 nextprev = tree.xpath('//span[@class="nextprev"]/a/@href')
 
-lenList = [len(title),len(domain),len(submitter),len(liFirst),len(FullName),len(datetime)]
-minLen = min(lenList)
 
 
-i = 0
-tline = ''
-while i < minLen:
-    #print i+1,title[i],domain[i],submitter[i],liFirst[i],FullName[i],datetime[i],'\n'
-    title[i] = title[i].replace("'","''")
-    liFirst[i] = int(liFirst[i].replace("comments",""))
-    oneLine = "('"+title[i]+"','"+domain[i]+"','"+submitter[i]+"',"+str(liFirst[i])+",'"+datetime[i]+"')".decode('unicode_escape').encode('ascii','ignore')
-    #oneLine = oneLine.replace("'","")
-    oneLine = oneLine. replace("\r\n","")
-    #print oneLine
-    #oneLine = re.sub('\W+',' ', oneLine )
-    insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rddatetime)  values "+ oneLine
-    print(insertSQL)
-
-    #c.execute(insertSQL)
-    tline = tline + oneLine +",\n"
-
-    i = i + 1
-
-
-#conn.commit()
-#conn.close()
-
-#outFile.write(tline)
-#outFile.close
-
-
-#lin = nextprev[0].text
-#code = tree.findtext('thing id-')
-#This will create a list of prices
-#prices = tree.xpath('//span[@class="item-price"]/text()')
-
-print '\ntitle: ', title
-print '\ndomain: ', domain
-print '\nsubmitter: ', submitter
-print '\ndatetime: ', datetime
-print '\nliFirst: ', liFirst
-print '\nFullName: ', FullName
-print '\nnextprev: ', nextprev
-print '\nlenList: ', lenList
-print '\nminList: ', minLen
-#print 'Prices: ', prices
