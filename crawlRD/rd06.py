@@ -29,7 +29,7 @@ def getItems(tree):
 
 def writeItems(myDB,myFile,myDict):
 
-    outFile = open(myFile,'w')
+
     conn = sqlite3.connect(myDB)
     c = conn.cursor()
     i = 0
@@ -45,7 +45,10 @@ def writeItems(myDB,myFile,myDict):
         myDict['title'][i] = myDict['title'][i].replace("'","")
         #title[i] = title[i].replace("'","''")
         sComments = myDict['liFirst'][i].split(' ')
-        numComments = int(sComments[0])
+        if len(sComments)==1:
+            numComments =0
+        else:
+            numComments = int(sComments[0])
         oneLine = "('"+myDict['title'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
         oneLine = oneLine. replace("\r\n","")
         insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rdfullname,rddatetime)  values "+ oneLine
@@ -59,17 +62,29 @@ def writeItems(myDB,myFile,myDict):
     conn.close()
 
     outFile.write(tline.encode('utf8'))
-    outFile.close
+
 
 
 #tree = openPage('http://localhost:8000/001/til.htm')
-tree = openPage('http://localhost:8000/001/wiki-1.htm')
-myItems = getItems(tree)
+#main program
+
 myDB = '..\db.sqlite3'
 myFile = r'reddit-out.csv'
-writeItems(myDB,myFile,myItems)
+outFile = open(myFile,'w')
 
-nextprev = tree.xpath('//span[@class="nextprev"]/a/@href')
+preName = 'http://localhost:8000/001/wiki-'
+
+for j in range(1,11):
+    pageName = preName + str(j)+'.htm'
+    print pageName
+    tree = openPage(pageName)
+    myItems = getItems(tree)
+    writeItems(myDB,myFile,myItems)
+    nextprev = tree.xpath('//span[@class="nextprev"]/a/@href')
+
+outFile.close
+
+
 
 
 
