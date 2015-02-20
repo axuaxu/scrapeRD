@@ -21,6 +21,7 @@ def getItems(tree):
     myDict = {'title': readPage(tree,'//a[@class="title may-blank "]/text()'),
           'domain': readPage(tree,'//span[@class="domain"]/a/text()'),
           'submitter': readPage(tree,'//p[@class="tagline"]/a/text()'),
+          'vote': readPage(tree,'//div[@class="score unvoted"]/text()'),
           'liFirst': readPage(tree,'//li[@class="first"]/a/text()'),
           'FullName': readPage(tree,'//@data-fullname'),
           'datetime': readPage(tree,'//@datetime')
@@ -49,9 +50,9 @@ def writeItems(myDB,myFile,myDict):
             numComments =0
         else:
             numComments = int(sComments[0])
-        oneLine = "('"+myDict['title'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
+        oneLine = "('"+myDict['title'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+myDict['vote'][i]+','+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
         oneLine = oneLine. replace("\r\n","")
-        insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdlifirst,rdfullname,rddatetime)  values "+ oneLine
+        insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdvote,rdcomments,rdfullname,rddatetime)  values "+ oneLine
 
         c.execute(insertSQL)
         tline = tline + oneLine +",\n"
@@ -74,7 +75,7 @@ outFile = open(myFile,'w')
 
 preName = 'http://localhost:8000/001/wiki-'
 
-for j in range(1,11):
+for j in range(1,2):
     pageName = preName + str(j)+'.htm'
     print pageName
     tree = openPage(pageName)
