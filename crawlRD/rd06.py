@@ -79,7 +79,7 @@ outFile = open(myFile,'w')
 
 preName = 'http://localhost:8000/001/wiki-'
 
-for j in range(3,4):
+for j in range(1,11):
     pageName = preName + str(j)+'.htm'
     print pageName
     tree = openPage(pageName)
