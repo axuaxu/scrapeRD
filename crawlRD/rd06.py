@@ -19,6 +19,7 @@ def readPage(docTree,s):
 
 def getItems(tree):
     myDict = {'title': readPage(tree,'//a[@class="title may-blank "]/text()'),
+           'link': readPage(tree,'//a[@class="title may-blank "]/@href'),
           'domain': readPage(tree,'//span[@class="domain"]/a/text()'),
           'submitter': readPage(tree,'//p[@class="tagline"]/a/text()'),
           'vote': readPage(tree,'//div[@class="score unvoted"]/text()'),
@@ -41,6 +42,9 @@ def writeItems(myDB,myFile,myDict):
     minLen = min(mlen)
 
     while i < minLen:
+        if  myDict['vote'][i].isdigit() ==False:
+            myDict['vote'][i] = 0
+        print  myDict['vote'][i]
         for k,v in myDict.items():
             print k, 'corresponds to', v
         myDict['title'][i] = myDict['title'][i].replace("'","")
@@ -50,10 +54,10 @@ def writeItems(myDB,myFile,myDict):
             numComments =0
         else:
             numComments = int(sComments[0])
-        oneLine = "('"+myDict['title'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+myDict['vote'][i]+','+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
+        oneLine = "('"+myDict['title'][i]+"','"+myDict['link'][i]+"','"+myDict['domain'][i]+"','"+myDict['submitter'][i]+"',"+str(myDict['vote'][i])+','+str(numComments)+",'"+myDict['FullName'][i]+"','"+myDict['datetime'][i]+"')".decode('unicode_escape').encode('ascii','ignore')
         oneLine = oneLine. replace("\r\n","")
-        insertSQL = "insert into crawlRD_redditpage (rdtitle,rddomain,rdsubmitter,rdvote,rdcomments,rdfullname,rddatetime)  values "+ oneLine
-
+        insertSQL = "insert into crawlRD_redditpage (rdtitle,rdlink,rddomain,rdsubmitter,rdvote,rdcomments,rdfullname,rddatetime)  values "+ oneLine
+        print i, insertSQL
         c.execute(insertSQL)
         tline = tline + oneLine +",\n"
 
@@ -75,7 +79,7 @@ outFile = open(myFile,'w')
 
 preName = 'http://localhost:8000/001/wiki-'
 
-for j in range(1,2):
+for j in range(3,4):
     pageName = preName + str(j)+'.htm'
     print pageName
     tree = openPage(pageName)

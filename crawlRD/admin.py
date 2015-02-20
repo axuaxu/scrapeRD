@@ -4,6 +4,6 @@ from crawlRD.models import RedditPage
 class RedditPageAdmin(admin.ModelAdmin):
     # ...
     #list_display = ('id','rdTitle','rdVote','rdComments','rdDomain','rdFullName','rdDateTime', 'rdSubmitter')
-    list_display = ('id','rdTitle','rdVote','rdComments','rdDateTime')
+    list_display = ('id','rdTitle','rdVote','rdComments','rdLink','rdDateTime')
 
 admin.site.register(RedditPage,RedditPageAdmin)

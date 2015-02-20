@@ -7,6 +7,7 @@ class RedditPage(models.Model):
       Reddit Page Fields
     """
     rdTitle = models.TextField()
+    rdLink = models.CharField(max_length=300)
     rdDomain = models.CharField(max_length=200)
     rdSubmitter = models.CharField(max_length=300)
     rdVote = models.IntegerField()
