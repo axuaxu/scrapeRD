@@ -9,8 +9,8 @@ class RedditPageAdmin(admin.ModelAdmin):
 class RedditCSVAdmin(admin.ModelAdmin):
     # ...
     #list_display = ('id','rdTitle','rdVote','rdComments','rdDomain','rdFullName','rdDateTime', 'rdSubmitter')
-    list_display = ('id','created_utc','score','domain','tid','title','author','ups','downs','num_comments','permalink')
-
+    list_display = ('id','score','domain','tid','title','selftext','subreddit_id','num_comments','permalink')
+    list_filter = ['subreddit_id']
 class RedditSubAdmin(admin.ModelAdmin):
      list_display = ('id','subcat','load')
 

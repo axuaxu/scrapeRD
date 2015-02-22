@@ -2,7 +2,7 @@
 from pathlib import Path
 from django.test import TestCase
 import sqlite3
-
+#write reddit subcat
 # Create your tests here.
 
 con = sqlite3.connect('..\db.csv')
