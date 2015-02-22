@@ -73,7 +73,7 @@ def writeItems(myDB,myFile,myDict):
 #tree = openPage('http://localhost:8000/001/til.htm')
 #main program
 
-myDB = '..\db.sqlite3'
+myDB = '..\db.csv'
 myFile = r'reddit-out.csv'
 outFile = open(myFile,'w')
 
