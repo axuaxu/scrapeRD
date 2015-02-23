@@ -1,6 +1,10 @@
 from django.contrib import admin
 from crawlRD.models import RedditPage,RedditCSV,RedditSub,RedditCSVcat
 # Register your models here.
+#loadCSVsubCatDate.py    load table  crawlRD_redditcsvcat   load the reddit csv files
+#updCSVload.py           update set table crawlRD_redditsub  csv file list
+#updCSVloadClear.py      clear setting in table  crawlRD_redditsub
+
 class RedditPageAdmin(admin.ModelAdmin):
     # ...
     #list_display = ('id','rdTitle','rdVote','rdComments','rdDomain','rdFullName','rdDateTime', 'rdSubmitter')
