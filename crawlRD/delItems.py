@@ -13,7 +13,7 @@ cur = con.cursor()
 #FileList = list(p.glob('./*.*'))
 #print FileList
 
-delSQL = "delete from crawlRD_redditcsv "
+delSQL = "delete from crawlRD_redditcsvcat "
 print delSQL
 cur.execute(delSQL)
 

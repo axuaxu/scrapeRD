@@ -8,14 +8,9 @@ import csv, sqlite3
 con = sqlite3.connect('..\db.csv')
 con.text_factory = str
 cur = con.cursor()
-#loadList = ['askscience', 'todayileared', 'dataisbeautiful','explainlikeimfive',
-#            'Futurology', 'history', 'science', 'LifeProTips','GetMotivated',
-#            'InternetIsBeautiful','Showerthoughts','funny']
-#loadList = ['lists','lol']
-loadList = ['OldSchoolCool']
-for item in loadList:
-        updateSQL =  "update crawlRD_redditsub set load=1 where subcat = '"+item+".csv'"
-        cur.execute(updateSQL)
+
+updateSQL =  "update crawlRD_redditsub set load=0 "
+cur.execute(updateSQL)
 con.commit()
 cur.execute("select * from crawlRD_redditsub where  load=1 ")
 all_rows = cur.fetchall()

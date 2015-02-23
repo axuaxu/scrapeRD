@@ -74,7 +74,7 @@ class RedditCSVcat(models.Model):
     name =  models.TextField(blank=True)
     url =  models.TextField(blank=True)
     distinguished =  models.TextField(blank=True)
-    catNamte = models.CharField(max_length=60)
+    catName = models.CharField(max_length=60)
 
 class RedditSub(models.Model):
     """
