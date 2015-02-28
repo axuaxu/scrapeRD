@@ -1,5 +1,5 @@
 from django.contrib import admin
-from crawlRD.models import RedditPage,RedditCSV,RedditSub,RedditCSVcat,Reddit
+from crawlRD.models import RedditPage,RedditCSV,RedditSub,RedditCSVcat,RedditPedia,Reddit
 # Register your models here.
 #loadCSVsubCatDate.py    load table  crawlRD_redditcsvcat   load the reddit csv files
 #updCSVload.py           update set table crawlRD_redditsub  csv file list
@@ -30,6 +30,13 @@ class RedditCSVcatAdmin(admin.ModelAdmin):
     list_filter = ['catName','domain']
     ordering = ('-score',)
 
+class RedditPediaAdmin(admin.ModelAdmin):
+    # ...
+    #list_display = ('id','rdTitle','rdVote','rdComments','rdDomain','rdFullName','rdDateTime', 'rdSubmitter')
+    list_display = ('id','tid','score','title','num_comments','url','created_utc','domain','catName')
+    list_filter = ['catName','domain']
+    ordering = ('-score',)
+
 class RedditAdmin(admin.ModelAdmin):
     # ...
     #list_display = ('id','rdTitle','rdVote','rdComments','rdDomain','rdFullName','rdDateTime', 'rdSubmitter')
@@ -41,4 +48,5 @@ admin.site.register(RedditPage,RedditPageAdmin)
 admin.site.register(RedditCSV,RedditCSVAdmin)
 admin.site.register(RedditSub,RedditSubAdmin)
 admin.site.register(RedditCSVcat,RedditCSVcatAdmin)
+admin.site.register(RedditPedia,RedditPediaAdmin)
 admin.site.register(Reddit,RedditAdmin)

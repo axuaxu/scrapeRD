@@ -2,7 +2,7 @@ __author__ = 'Anne'
 import csv, sqlite3
 from datetime import datetime
 
-#write en.wikipedia.org
+
 def writeDB(fileName):
     allName = '../data/'+fileName
     with open(allName, 'rb') as csvfile:
@@ -10,7 +10,7 @@ def writeDB(fileName):
          RedditLine =[]
          for row in RedditReader:
              #print row['domain']
-             #if ( row['domain'].find('en.wikipedia.org')>-1 ):
+             if ( row['domain'].find('en.wikipedia.org')>-1 ):
                  RedditTime = datetime.fromtimestamp(float(row['created_utc'])).strftime("%Y-%m-%d %H:%M:%S")
                  RedditLine.append((RedditTime,row['score'],row['domain'],row['id'],row['title'],row['author'],row['ups'],
                     row['downs'],row['num_comments'],row['permalink'],row['selftext'],row['link_flair_text'],
