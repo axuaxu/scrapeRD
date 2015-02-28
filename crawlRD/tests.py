@@ -8,7 +8,8 @@ import csv, sqlite3
 con = sqlite3.connect('..\db.csv')
 con.text_factory = str
 cur = con.cursor()
-cur.execute("select * from crawlRD_redditsub where id > 2450")
+cur.execute("select id,tid,count(*),catName from crawlRD_redditcsvcat group by tid having count(*)>1")
+#cur.execute("delete from crawlRD_redditcsvcat where id = 29102")
 all_rows = cur.fetchall()
 for row in all_rows:
     # row[0] returns the first column in the query (name), row[1] returns email column.
